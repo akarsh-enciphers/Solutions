@@ -165,7 +165,7 @@ Note: CSRF poc can be generated from burp pro as well
 ![limit](/images/number6.png)
 
 8. Check the application and the comment will be added as many times till which you have set the limit.
-![limit](/images.number7.png)
+![limit](/images/number7.png)
 
 
 ## High <a name="High"></a>
