@@ -27,7 +27,7 @@ In  this section we will talk about the solution to all the vulnerabilities pres
 
 1. This self-xss is present inside the chat box option given in the application.
 
-2. Though simple javascript payload containing script tag will not work. You have to use image tag in the payload. like:
+2. Simple javascript payload containing script tag will  work. Like:
 ```
 <script>alert(0)</script>
 ```
@@ -38,7 +38,7 @@ In  this section we will talk about the solution to all the vulnerabilities pres
 
 ### Hidden Directories <a name="Hidden Directories"></a>
 
-1. We can use [Dirsearch tool](https://github.com/maurosoria/dirsearch)to enumerate the hidden directories from the application with and without login. perform directory brute forcing on application to find the hidden end points of the application.
+1. We can use [Dirsearch tool](https://github.com/maurosoria/dirsearch) to enumerate the hidden directories from the application with and without login. Perform directory brute forcing on application to find the hidden end points of the application.
 
 2. You can get [Dirsearch tool from here](https://github.com/maurosoria/dirsearch) and after the installation use this command in your terminal. 
 ```
@@ -48,14 +48,13 @@ python3 dirsearch.py -u <URL> -e <EXTENSIONS>
 ```
 python3 dirsearch.py -u http://localhost:3000 -e html,php
 ```
-3. The http status code 500  is shown  on the directory  ** /management ** when enumeration is done after login. Which looks interesting 
-
+3. The http status code 500  is shown  on the directory  **/management** when enumeration is done after login. Which looks interesting.
 ![dir](/images/dirsearch.png)
 
-4. These can be accessed by using the endpoint after login with the domain name in the URL in your browser.Like **http://localhost:3000/management**.It shows a message Not Authorized after visiting http://localhost:3000/management.
+4. These can be accessed by using the endpoint after login with the domain name in the URL in your browser. Like **http://localhost:3000/management**. It shows a message Not Authorized after visiting http://localhost:3000/management.
 ![dir](/images/dirsearch2.png)
 
-5. There is a  email for the admin account is **admin@threadsapp.co.in**. You can use this email to register again as an admin from registration and see if it allows it or not.
+5. There is an  email for the admin account which is **admin@threadsapp.co.in**. You can use this email to register again as an admin from registration and see if it allows it or not.
 ![dir](/images/dirsearch3.png)
 
 6.Here it allows you to login as admin after registration
@@ -63,22 +62,22 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 ### Cross-site Request Forgery <a name="CSRF"></a>
 
-1. So Threads application is CSRF vulnerable so we can change many things like password,name etc of a victim account just by sending him a malicious html file performing some actions  and if he opens it  then there will be changes in his account without notifying about it.
+1. So Threads application is CSRF vulnerable so we can change many things like password,name etc of a victim account just by sending him a malicious html file performing some actions  and if he opens the html file  then there will be changes in his account without notifying about it.
 
-2. Like here we can take an example of changing a user's password. So we will create a html file which will have an action for changing password for the victim user. So when the victim will open or visit that malicious html file in his browser where he is login in the application,his password will get changed automatically with any notification.
+2. Like here we can take an example of changing a user's password. So we will create a html file which will have an action for changing password for the victim user. So when the victim will open or visit that malicious html file in his browser where he is login in the application,his password will get changed automatically without any notification.
 
 3. First just log in as a user. I have logged in as a pentester whose password is currently “12345678”.
 ![csrf](/images/csrf0.png)
 
 
-4. Now as we have logged in as this user(Pentester) let’s try  changing the password through the user account only on threads app. So basically like I am a Pentester user right now and I want to change my password to “12345”. So I will just update it in my profile section. If I check this request going out of my browser for changing password I get to know that for updating the password the application is using the  **POST** request.
+4. Now as we have logged in as this user(Pentester) let’s try  changing the password through the user account only on threads app. So basically like I am a Pentester user right now and I want to change my password to “12345”. So I will just update it in my profile section. If I check this request going out of my browser for changing password with the help of BurpSuite I get to know that for updating the password the application is using the  **POST** request.
 ![csrf](/images/csrf2.png)
 
 5. So currently my Pentester has the password ‘12345’.
 
 6. As you can see in your outgoing request  for  changing the password the request going out is the  ‘POST’ request. Also it was using **password** and **confirm_password** as the hidden  parameters which we knew  while updating the password from the  request going out of our browser. 
 
-7. So as an attacker we know that the http request which will be sent through the browser is a ‘POST’  request to make changes in  the profile section. So now what we will be going to do is make an html document which will perform the action of changing the password when it will be executed. 
+7. So as an attacker we know that the http request which will be sent through the browser is a ‘POST’  request to make changes in  the profile section. So now what we will be going to do is make a html document which will perform the action of changing the password when it will be executed. 
 
 8. So the html document for changing the password should contain fields like:
 
@@ -99,18 +98,17 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 </html>
 ```
-
 9. Here in this html document the body tag will load and submit this document, the form tag is performing the action on the profile of the user whose UID is mentioned and the action which which is to be performed is of changing the password value mentioned in the hidden parameters(password,confirm_password).
 
-10. So as you can see in this html document we have used the form tag which will be  performing the action on ‘Pentester’ profile and the action which it will be performing is changing the password of ‘Pentester2’ to ‘1’.  Save the html document with .html extension.
+10. So as you can see in this html document we have used the form tag which will be  performing the action on ‘Pentester’ profile and the action which it will be performing is changing the password of ‘Pentester’ to ‘1’.  Save the html document with .html extension.
 
-11. So what an attacker need to do  is that he has to send this html document via link or some way to the victims (Pentester2)browser and as soon as the victims click on it this html document will get executed by changing the password of the victim account.
+11. So what an attacker need to do  is that he has to send this html document via link or some way to the victims (Pentester) browser and as soon as the victims click on it this html document will get executed by changing the password of the victim account.
 
 
 12. So when he will open this file,password will be updated
 
 
-13. So now the new password for Pentester2 is ‘1’ and the Pentester does not even know about this, all he did was that he opened that file which can be sent via link or any other way to the victims system.
+13. So now the new password for Pentester is ‘1’ and the Pentester does not even know about this, all he did was that he opened that file which can be sent via link or any other way to the victims system.
 
 14. Keep in mind that in the real world application you have to know hidden parameters which are getting used for changing the password and also the url or endpoint of the user account or the UID given to the user.
 
@@ -134,7 +132,6 @@ Note: CSRF poc can be generated from burp pro as well
   </body>
 </html>
 ```
-
 15. Here the html document you created is in your localhost so just open that document via any browser you were working on and you will see the notification of the account getting updated and the password for your user will be changed.
 
 16. Keep in mind that the url provides in form action of the html document the UID present there is for my user so change it to the UID provided for your user to see changes.
