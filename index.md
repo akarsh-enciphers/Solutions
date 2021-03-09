@@ -80,7 +80,6 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 7. So as an attacker we know that the http request which will be sent through the browser is a ‘POST’  request to make changes in  the profile section. So now what we will be going to do is make a html document which will perform the action of changing the password when it will be executed. 
 
 8. So the html document for changing the password should contain fields like:
-
 ```
 <html>
 
@@ -98,15 +97,13 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 </html>
 ```
-9. Here in this html document the body tag will load and submit this document, the form tag is performing the action on the profile of the user whose UID is mentioned and the action which which is to be performed is of changing the password value mentioned in the hidden parameters(password,confirm_password).
+9.  Here in this html document the body tag will load and submit this document, the form tag is performing the action on the profile of the user whose UID is mentioned and the action which which is to be performed is of changing the password value mentioned in the hidden parameters(password,confirm_password).
 
 10. So as you can see in this html document we have used the form tag which will be  performing the action on ‘Pentester’ profile and the action which it will be performing is changing the password of ‘Pentester’ to ‘1’.  Save the html document with .html extension.
 
 11. So what an attacker need to do  is that he has to send this html document via link or some way to the victims (Pentester) browser and as soon as the victims click on it this html document will get executed by changing the password of the victim account.
 
-
 12. So when he will open this file,password will be updated
-
 
 13. So now the new password for Pentester is ‘1’ and the Pentester does not even know about this, all he did was that he opened that file which can be sent via link or any other way to the victims system.
 
@@ -176,10 +173,9 @@ Note: CSRF poc can be generated from burp pro as well
 3. This IDOR vulnerability is present in the section of deletion of a post or comment which means we can delete any other users post or comment though it’s not possible with the feature  inside the application but we can do it with the help of BurpSuite.So open your BurpSuite and connect it with the  browser you are working on.
 
 4. To solve  this vulnerability  we need two accounts. So let’s login with our first account (let's say the first account name is “Pentester”) and create a post with our first account.
-![IDOR](/images/idor1.png)
 
 5. As you can see the post from the Pentester account has been created.
-![IDOR](/images/idor2.png)
+![IDOR](/images/idor1.png)
 
 6. Similar way to create a post from another account "Pentester2" account.
 ![IDOR](/images/idor3.png)
@@ -203,7 +199,7 @@ Note: CSRF poc can be generated from burp pro as well
 
 2. So the /etc/passwd file is leaking which we have to find out.The /etc/passwd file on Unix systems contains password information. An attacker who has accessed the etc/passwd file may attempt a brute force attack of all passwords on the system. An attacker may attempt to gain access to the etc/passwd file through HTTP, FTP, or SMB. Typically this is done through one of the CGI scripts installed on the server, so this event may be seen in conjunction with other events of that type.
 
-3. So go to your profile section the last field the URL on is used to upload an image via URL.
+3. So go to your profile section the  URL field  is used to upload an image via URL.
 
 4. So now let’s use the file protocol on this field and try to get /etc/passwd file from the server. Use **file:///etc/passwd** on the url field to fetch the file from the server.
 ![SSRF](/images/ssrf2.png)
@@ -211,9 +207,9 @@ Note: CSRF poc can be generated from burp pro as well
 5. Update this and open your profile section again and you will see that  in the image section there is no image because obviously that was not an url for uploading an image.
 ![SSRF](/images/ssrf3.png)
 
-6. Now go to the profile image section on left side and right to copy the image location.open a new tab and paste the image location and it will ask you to save the image as shown in below image
+6. Now go to the profile image section on left side and right to copy the image location. Open a new tab and paste the image location and it will ask you to save the image as shown in below image
 ![SSRF](/images/ssrf4.png)
-
+	
 7. Open your terminal and go to where you have saved that image and open that image file using the nano command “nano [file name]”.
 ![SSRF](/images/ssrf5.png)
 
