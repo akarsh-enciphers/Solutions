@@ -80,6 +80,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 7. So as an attacker we know that the http request which will be sent through the browser is a ‘POST’  request to make changes in  the profile section. So now what we will be going to do is make a html document which will perform the action of changing the password when it will be executed. 
 
 8. So the html document for changing the password should contain fields like:
+
 ```
 <html>
 
@@ -97,6 +98,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 </html>
 ```
+
 9.  Here in this html document the body tag will load and submit this document, the form tag is performing the action on the profile of the user whose UID is mentioned and the action which which is to be performed is of changing the password value mentioned in the hidden parameters(password,confirm_password).
 
 10. So as you can see in this html document we have used the form tag which will be  performing the action on ‘Pentester’ profile and the action which it will be performing is changing the password of ‘Pentester’ to ‘1’.  Save the html document with .html extension.
