@@ -80,6 +80,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 7. So as an attacker we know that the http request which will be sent through the browser is a ‘POST’  request to make changes in  the profile section. So now what we will be going to do is make a html document which will perform the action of changing the password when it will be executed. 
 
 8. So the html document for changing the password should contain fields like:
+
 ```
 <html>
 
