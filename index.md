@@ -234,13 +234,11 @@ Note: CSRF poc can be generated from burp pro as well
 1. The stored-xss is present in the name field of the profile section.So go to your profile by clicking on Account button:
 
 2. In name field enter a script as input: 
-```
-<script>alert(1)</script>
-```
 ![XSS](/images/self2.png)
 
 3. Click on update. After this you will see that the entered XSS payload is getting  executed on your browser and it will keep getting executed whenever you try to access your profile section through the icon given on the home page or profile name.
 ![XSS](/images/self3.png)
+
 4. Another execution end point : When you visit the same user profile from another user given script executes
 ![XSS](/images/self4.png)
 
