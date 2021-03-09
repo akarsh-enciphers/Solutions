@@ -235,7 +235,7 @@ Note: CSRF poc can be generated from burp pro as well
 
 2. In name field enter a script as input: 
 ```
-><script>alert(1)</script>
+<script>alert(1)</script>
 ```
 ![XSS](/images/self2.png)
 
