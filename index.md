@@ -6,8 +6,11 @@
   * [Cross-Site Request Forgery](#CSRF)
   * [No Password Policy](#noPass)
   * [Weak Reset Password Implementation](#WeakPass)
+  * []()
 - [2. Medium Severity](#Medium)
   * [No rate limiting](#nolimit)
+  * [Failure to invalidate the session after password change](#Fsession)
+  * [Clickjacking](#click)
 - [3. High Severity](#High)
   * [Insecure Direct Object Reference](#IDOR)
   * [Server-Side Request Forgery](#SSRF)
@@ -183,6 +186,35 @@ Note: CSRF poc can be generated from burp pro as well
 
 8. Check the application and the comment will be added as many times till which you have set the limit.
 ![limit](/images/number7.png)
+
+### Failure to invalidate the session after password change <a name="Fsession"></a>
+
+1. The application Failure to invalidate session after password. In this scenario changing the password doesn't destroy the other sessions which are logged in with old passwords.
+
+2. Open the same account on two browsers.
+![failed](/images/cpass.png)
+
+3. Let's say they are browser A and browser B.
+
+4. Change the password on browser A.
+![failed](/images/Cpass2.png)
+
+5. The session on browser B will still be active.
+![failed](/images/cpass3.png)
+
+6. It’s a failsafe kept by many big organizations to invalidate all the concurrent sessions whenever someone changes.
+
+### Clickjacking <a name="click"></a>
+
+1. Clickjacking is an attack that tricks a user into clicking a webpage element which is invisible or disguised as another element this can cause users to unwittingly download malware, visit malicious web pages,provide credentials or sensitive information, transfer money, or purchase products online.
+
+2. Make a html file with the following code:
+![clickjacking](/images/clickjacking.png)
+
+3. Instead of http://www.yoursite.com/sensitive-page enter the profile link. The URL which shows when you open your profile.
+
+4. Open that file you saved. If the following is shown then its clear that the website is vulnerable to clickjacking.
+![clickjacking](/images/clickjacking2.png)
 
 
 ## High <a name="High"></a>
