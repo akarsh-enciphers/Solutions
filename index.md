@@ -4,6 +4,8 @@
   * [Self-XSS](#self2)
   * [Hidden Directories](#Hidden Directories)
   * [Cross-Site Request Forgery](#CSRF)
+  * [No Password Policy](#noPass)
+  * [Weak Reset Password Implementation](#WeakPass)
 - [2. Medium Severity](#Medium)
   * [No rate limiting](#nolimit)
 - [3. High Severity](#High)
@@ -97,7 +99,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 11. So what an attacker need to do  is that he has to send this html document via link or some way to the victims (Pentester) browser and as soon as the victims click on it this html document will get executed by changing the password of the victim account.
 
-12. So when he will open this file,password will be updated
+12. So when he will open this file,password will get updated
 
 13. So now the new password for Pentester is ‘1’ and the Pentester does not even know about this, all he did was that he opened that file which can be sent via link or any other way to the victims system.
 
@@ -126,6 +128,33 @@ Note: CSRF poc can be generated from burp pro as well
 15. Here the html document you created is in your localhost so just open that document via any browser you were working on and you will see the notification of the account getting updated and the password for your user will be changed.
 
 16. Keep in mind that the url provides in form action of the html document the UID present there is for my user so change it to the UID provided for your user to see changes.
+
+### No Password Policy <a name="noPass"></a>
+
+1. Create a new account, On the password section enter any password like: “123”,”Abc” or  just copy paste the email used.
+2. This is an example of no password policy being in place.
+3. Some policies suggest or impose requirements on what type of password a user can choose, such as:
+   - The use of both upper-case and lower-case letters (case sensitivity).
+   - Inclusion of one or more numerical digits.
+   - Inclusion of special characters, such as @, #, $.
+   - Prohibition of words found in a password blacklist.
+   - Prohibition of words found in the user's personal information.
+   - Prohibition of use of company name or an abbreviation.
+   - Prohibition of passwords that match the format of calendar dates, license plate numbers, telephone numbers, or other common numbers.
+
+### Weak Reset Password Implementation <a name="WeakPass"></a>
+
+1. Create an account with the password – “123456”. Now go to my account section and change password.
+![Weak](/images/weak.png)
+
+2. Enter the new password the same as 123456.
+![Weak](/images/weak2.png)
+
+3. It will be updated however the same password will be used.
+![Weak](/images/weak3.png)
+
+4.This is an issue most of the major websites have policies which disables you to use/enter your old password as your new password.
+![Weak](/images/weak4.png)
 
 
 ## Medium <a name="Medium"></a>
