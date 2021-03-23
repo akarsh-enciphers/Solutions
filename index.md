@@ -6,11 +6,14 @@
   * [Cross-Site Request Forgery](#CSRF)
   * [No Password Policy](#noPass)
   * [Weak Reset Password Implementation](#WeakPass)
-  * []()
+  * [Automatic User Enumeration](#userE)
+  * [No Password Required for account deletion](#nopass)
+  * [Simultaneous sessions are being kept active on the same browser](#session)
 - [2. Medium Severity](#Medium)
   * [No rate limiting](#nolimit)
   * [Failure to invalidate the session after password change](#Fsession)
   * [Clickjacking](#click)
+  * [Bruteforce of password leading to account takeover](#brutepass)
 - [3. High Severity](#High)
   * [Insecure Direct Object Reference](#IDOR)
   * [Server-Side Request Forgery](#SSRF)
@@ -159,6 +162,38 @@ Note: CSRF poc can be generated from burp pro as well
 4.This is an issue most of the major websites have policies which disables you to use/enter your old password as your new password.
 ![Weak](/images/weak4.png)
 
+### Automatic User Enumeration <a name="userE"></a>
+
+1. Open the login page and enter any random credentials.
+
+2. If the email is correct and password is wrong, it will display an error like ” Password is incorrect”.
+![user](/images/userE.png)
+
+3. If the email is wrong, then it will display an error like ”Email not found”
+![user](/images/userE2.png)
+
+4. This is bad security practice.What we can do is add a neutral code like ”Email id or password is incorrect, kindly recheck” this way others won't be able to enumerate what users are registered on the website.
+
+### No password required for account deletion <a name="nopass"></a>
+
+1. The removal of an account is one of the sensitive parts of a web application that needs to be protected, therefore removing an account should validate the authenticity of the user, however  when removing an account, the system did not require the user to input the account password.
+
+2. The user logins to a shared computer (office, library, cafe)and  leaves the account open.
+
+3. Intruder came and tried to delete the user's account Intruder can easily delete the account because the system did not protect it by asking the password to validate that the person deleting the account is the real user.
+
+### Simultaneous sessions are being kept active on the same browser <a name="session"></a>
+
+1. Login using any user on one tab and go to the account section.
+
+2. Open a new tab and go to profile again.
+
+3.  Logout from that browser.
+
+4. Login with a different account.
+
+5. Now go to account section again and now you can change the details of both the accounts without any interference
+
 
 ## Medium <a name="Medium"></a>
 
@@ -215,6 +250,27 @@ Note: CSRF poc can be generated from burp pro as well
 
 4. Open that file you saved. If the following is shown then its clear that the website is vulnerable to clickjacking.
 ![clickjacking](/images/clickjacking2.png)
+
+### Bruteforce of password leading to account takeover <a name="brutepass"></a>
+
+1. Go to the login page then enter the email id of the victim, enter any random password then before clicking on login, open burpsuite and click on intercept to intercept this request. Now click on login.
+
+2. The following request will pop up on burpsuite
+![brutepass](/images/brutepass.png)
+
+3. Send this request to the Intruder tab. Then click on position tab which comes under intruder tab and then click on clear button present on the right side.
+![brutepass](/images/brutepass2.png)
+
+4. Now highlight the password value and click the add button on the right side.
+![brutepass](/images/brutepass3.png)
+
+5. Now go to the payloads section. You can use a custom password dictionary from the internet which contains a list of very common passwords. For ease of access  we will use the numbers section and set payloads as 1 to 1000 because our password is "123" which lies between no. from 1 to 1000.
+![brutepass](/images/brutepass4.png)
+
+6. Click on start attack option and then check the status section
+![brutepass](/images/brutepass5.png)
+
+7. Here we can see that the payload number 123 has status 200 code (HTTP OK success code). Thus the correct password was 123 to which it showed 200 status code this will let the attacker know your correct password. 
 
 
 ## High <a name="High"></a>
