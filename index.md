@@ -1,6 +1,6 @@
 # Table of Content
 
-- [1. Low Severity](#Low)
+- [1. Low Severities](#Low)
   * [Self-XSS](#self2)
   * [Hidden Directories](#Hidden Directories)
   * [Cross-Site Request Forgery](#CSRF)
@@ -9,19 +9,19 @@
   * [Automatic User Enumeration](#userE)
   * [No Password Required for account deletion](#nopass)
   * [Simultaneous sessions are being kept active on the same browser](#session)
-- [2. Medium Severity](#Medium)
+- [2. Medium Severities](#Medium)
   * [No rate limiting](#nolimit)
   * [Failure to invalidate the session after password change](#Fsession)
   * [Clickjacking](#click)
   * [Bruteforce of password leading to account takeover](#brutepass)
-- [3. High Severity](#High)
+- [3. High Severities](#High)
   * [Insecure Direct Object Reference](#IDOR)
   * [Server-Side Request Forgery](#SSRF)
   * [Stored-XSS](#Stored-XSS)
   * [Stored-XSS](#Self-XSS)
   * [Account takeover via IDOR](#IDORt)
   * [Blind SSRF](#bssrf)
-- [4. Critical Severity](#Critical)
+- [4. Critical Severities](#Critical)
   * [JWT Authentication](#JWT)
   * [NoSQL Injection](#noSQL)
 
@@ -427,7 +427,7 @@ python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGluYXZ
 
 13. As you can see the secret key for the token is **thr3@ds@000**. Use this key in this website [JWT.io](https://jwt.io/)  to encode a new token for your account(unauthorized user). Then use that token while logging in on the management page with your account. You will get the access with your account in the management section.
 
-### NoSQL Injection <a name="noSql"></a>
+### NoSQL Injection <a name="noSQL"></a>
 
 1. With the help of NoSQL Injection we can login as admin and also as another user without knowing their password .
 
