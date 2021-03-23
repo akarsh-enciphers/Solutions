@@ -23,7 +23,7 @@
   * [Blind SSRF](#bssrf)
 - [4. Critical Severity](#Critical)
   * [JWT Authentication](#JWT)
-
+  * [NoSQL Injection](#noSQL)
 
 In  this section we will talk about the solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
 
@@ -426,6 +426,40 @@ python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGluYXZ
 ![jwt](/images/jwt3.png)
 
 13. As you can see the secret key for the token is **thr3@ds@000**. Use this key in this website [JWT.io](https://jwt.io/)  to encode a new token for your account(unauthorized user). Then use that token while logging in on the management page with your account. You will get the access with your account in the management section.
+
+### NoSQL Injection <a name="noSql"></a>
+
+1. With the help of NoSQL Injection we can login as admin and also as another user without knowing their password .
+
+2. Open Login page.
+
+3. Enter anything in email and password field.
+![nosql](/images/nosql.png)
+
+4. Now click on login and intercept this outgoing request on burpsuite.
+![nosql](/images/nosql2.png)
+
+5. If you check this request so instead of the values which are going in the email and name  field change them with this payload : {“$gt”:””}
+
+6. So the new values which will be going through the email field and name field will be : {“email” :{“$gt”:””}},”password”:{“$gt”:””}}
+![nosql](/images/nosql3.png)
+
+7. Now forward this request and you will see you will get login to the application with the admin accounts credentials. This is because :{“$gt”:””} automatically selects  the very first data entries in the database which are always of an admin and make you login with the admin account.
+![nosql](/images/nosql4.png)
+
+8. Let’s say if you want to enter another user’s account so for that you just have to know the mail of that user's account.
+
+9. Go to the login page, enter that user’s mail and enter anything on the password field.
+![nosql](/images/nosql5.png)
+
+10. Now click on login and intercept this outgoing request from the browser.
+![nosql](/images/nosql6.png)
+
+11. Now just change the value of password to : {“$gt”:””}
+![nosql](/images/nosql7.png)
+
+12. Forward this request and you will be logged in as the user whose email you have used.
+![nosql](/images/nosql8.png)
 
 
 Happy learning,Happy hacking!
