@@ -28,10 +28,9 @@
 
 In  this section we will talk about the solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
 
-## Low <a name="Low"></a>
+# Low <a name="Low"></a>
 
-
-### Self-XSS <a name="self2"></a>
+## Self-XSS <a name="self2"></a>
 
 
 1. This self-xss is present inside the chat box option given in the application.
@@ -45,7 +44,7 @@ In  this section we will talk about the solution to all the vulnerabilities pres
 3. Use the above script and you will see the pop up from the chat box.
 ![xss3](/images/s3.png)
 
-### Hidden Directories <a name="Hidden Directories"></a>
+## Hidden Directories <a name="Hidden Directories"></a>
 
 1. We can use [Dirsearch tool](https://github.com/maurosoria/dirsearch) to enumerate the hidden directories from the application with and without login. Perform directory brute forcing on application to find the hidden end points of the application.
 
@@ -69,7 +68,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 6.Here it allows you to login as admin after registration
 ![dir](/images/dirsearch4.png)
 
-### Cross-site Request Forgery <a name="CSRF"></a>
+## Cross-site Request Forgery <a name="CSRF"></a>
 
 1. Open two accounts. One on the main browser window and the  other on incognito mode.
 
@@ -90,7 +89,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 8. Click on Submit Request.
  
 
-### No Password Policy <a name="noPass"></a>
+## No Password Policy <a name="noPass"></a>
 
 1. Create a new account, On the password section enter any password like: “123”,”Abc” or  just copy paste the email used.
 2. This is an example of no password policy being in place.
@@ -103,7 +102,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
    - Prohibition of use of company name or an abbreviation.
    - Prohibition of passwords that match the format of calendar dates, license plate numbers, telephone numbers, or other common numbers.
 
-### Weak Reset Password Implementation <a name="WeakPass"></a>
+## Weak Reset Password Implementation <a name="WeakPass"></a>
 
 1. Create an account with the password – “123456”. Now go to my account section and change password.
 ![Weak](/images/weak.png)
@@ -117,7 +116,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 4.This is an issue most of the major websites have policies which disables you to use/enter your old password as your new password.
 ![Weak](/images/weak4.png)
 
-### Automatic User Enumeration <a name="userE"></a>
+## Automatic User Enumeration <a name="userE"></a>
 
 1. Open the login page and enter any random credentials.
 
@@ -129,7 +128,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 4. This is bad security practice.What we can do is add a neutral code like ”Email id or password is incorrect, kindly recheck” this way others won't be able to enumerate what users are registered on the website.
 
-### No password required for account deletion <a name="nopass"></a>
+## No password required for account deletion <a name="nopass"></a>
 
 1. The removal of an account is one of the sensitive parts of a web application that needs to be protected, therefore removing an account should validate the authenticity of the user, however  when removing an account, the system did not require the user to input the account password.
 
@@ -137,7 +136,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 3. Intruder came and tried to delete the user's account Intruder can easily delete the account because the system did not protect it by asking the password to validate that the person deleting the account is the real user.
 
-### Simultaneous sessions are being kept active on the same browser <a name="session"></a>
+## Simultaneous sessions are being kept active on the same browser <a name="session"></a>
 
 1. Login using any user on one tab and go to the account section.
 
@@ -150,9 +149,9 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 5. Now go to account section again and now you can change the details of both the accounts without any interference
 
 
-## Medium <a name="Medium"></a>
+# Medium <a name="Medium"></a>
 
-### No rate limiting <a name="nolimit"></a>
+## No rate limiting <a name="nolimit"></a>
 
 1. Make two accounts and create a post from 1st account.
 ![limit](/images/number.png) 
@@ -177,7 +176,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 8. Check the application and the comment will be added as many times till which you have set the limit.
 ![limit](/images/number7.png)
 
-### Failure to invalidate the session after password change <a name="Fsession"></a>
+## Failure to invalidate the session after password change <a name="Fsession"></a>
 
 1. The application Failure to invalidate session after password. In this scenario changing the password doesn't destroy the other sessions which are logged in with old passwords.
 
@@ -194,7 +193,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 6. It’s a failsafe kept by many big organizations to invalidate all the concurrent sessions whenever someone changes.
 
-### Clickjacking <a name="click"></a>
+## Clickjacking <a name="click"></a>
 
 1. Clickjacking is an attack that tricks a user into clicking a webpage element which is invisible or disguised as another element this can cause users to unwittingly download malware, visit malicious web pages,provide credentials or sensitive information, transfer money, or purchase products online.
 
@@ -206,7 +205,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 4. Open that file you saved. If the following is shown then its clear that the website is vulnerable to clickjacking.
 ![clickjacking](/images/clickjacking2.png)
 
-### Bruteforce of password leading to account takeover <a name="brutepass"></a>
+## Bruteforce of password leading to account takeover <a name="brutepass"></a>
 
 1. Go to the login page then enter the email id of the victim, enter any random password then before clicking on login, open burpsuite and click on intercept to intercept this request. Now click on login.
 
@@ -228,9 +227,9 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 7. Here we can see that the payload number 123 has status 200 code (HTTP OK success code). Thus the correct password was 123 to which it showed 200 status code this will let the attacker know your correct password. 
 
 
-## High <a name="High"></a>
+# High <a name="High"></a>
 
-### Insecure Direct Object Reference <a name="IDOR"></a>
+## Insecure Direct Object Reference <a name="IDOR"></a>
 
 1. The IDOR is present in the  deletion of a post or on the comment of that post.
 
@@ -258,7 +257,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 11. So basically Pentester2 made his deletion request as a bait so instead of his post UUID he can replace it with Pentester UUID and send that deletion request to delete another user post from his account.
 
-### Server-Side Request Forgery <a name="SSRF"></a>
+## Server-Side Request Forgery <a name="SSRF"></a>
 
 1. So there is a simple ssrf which is present in the profile section of this application under the url field which is used for uploading an image via url.
 ![SSRF](/images/ssrf1.png)
@@ -281,7 +280,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 8. As you can see now you have access to the /etc/passwd file which you have accessed using file protocol.
 
-### Stored-XSS <a name="Stored-XSS"></a>
+## Stored-XSS <a name="Stored-XSS"></a>
 
 1. This XSS is present inside the profile section inside the website input field. It is a stored XSS which executes only when other users visit the profile of a user whose website field is updated with malicious script. So first let’s go to the  profile section and put a simple javascript  inside the website field. 
 ```
@@ -295,7 +294,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 3. once you click on view the xss will execute
 ![Stored](/images/stored3.png)
 
-### Stored-XSS <a name="Self-XSS"></a>
+## Stored-XSS <a name="Self-XSS"></a>
 
 1. The stored-xss is present in the name field of the profile section.So go to your profile by clicking on Account button:
 
@@ -311,7 +310,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 4. Another execution end point : When you visit the same user profile from another user given script executes
 ![XSS](/images/self4.png)
 
-### Account Takeover via IDOR <a name="IDORt"></a>
+## Account Takeover via IDOR <a name="IDORt"></a>
 
 1. Create two Accounts for eg. nodie and nodiea
 ![IDOR](/images/idort1.png)
@@ -334,7 +333,7 @@ completely ,let's cross check it by login to another user account.
 5. Similar ways other actions can be done by changing the UserId like: changing the
 password,Bio,Website,User Name etc.
 
-### Blind SSRF <a name="bssrf"></a>
+## Blind SSRF <a name="bssrf"></a>
 
 1. Application's upload image via image url is vulnerable to blind SSRF in the account section.
 ![Blind SSRF](/images/bssrf1.png)
@@ -342,7 +341,7 @@ password,Bio,Website,User Name etc.
 2.Now goto burp pro and get the http url or host your own server to get the request from the application server.
 ![Blind SSRF](/images/bssrf2.png)
 
-### Chaining of Idor with XSS <a name="ccix"></a>
+## Chaining of Idor with XSS <a name="ccix"></a>
 
 1. Login with your account and go to home
 
@@ -363,9 +362,9 @@ password,Bio,Website,User Name etc.
 ![ccix](/images/ccix6.png)
 
 
-## Critical <a name="Critical"></a>
+# Critical <a name="Critical"></a>
 
-### JWT Authentication <a name="JWT"></a>
+## JWT Authentication <a name="JWT"></a>
 
 1. So basically first you have to create an account with the given email ID **admin@threadsapp.co.in**  because that is the hardcoded email.
 
@@ -402,7 +401,7 @@ python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGluYXZ
 
 13. As you can see the secret key for the token is **thr3@ds@000**. Use this key in this website [JWT.io](https://jwt.io/)  to encode a new token for your account(unauthorized user). Then use that token while logging in on the management page with your account. You will get the access with your account in the management section.
 
-### NoSQL Injection <a name="noSQL"></a>
+## NoSQL Injection <a name="noSQL"></a>
 
 1. With the help of NoSQL Injection we can login as admin and also as another user without knowing their password .
 
