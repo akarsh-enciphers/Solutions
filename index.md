@@ -21,6 +21,7 @@
   * [Stored-XSS](#Self-XSS)
   * [Account takeover via IDOR](#IDORt)
   * [Blind SSRF](#bssrf)
+  * [Chaining of IDOR with XSS](#ccix)
 - [4. Critical Severities](#Critical)
   * [JWT Authentication](#JWT)
   * [NoSQL Injection](#noSQL)
@@ -70,70 +71,24 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 ### Cross-site Request Forgery <a name="CSRF"></a>
 
-1. So Threads application is CSRF vulnerable so we can change many things like password,name etc of a victim account just by sending him a malicious html file performing some actions  and if he opens the html file  then there will be changes in his account without notifying about it.
+1. Open two accounts. One on the main browser window and the  other on incognito mode.
 
-2. Like here we can take an example of changing a user's password. So we will create a html file which will have an action for changing password for the victim user. So when the victim will open or visit that malicious html file in his browser where he is login in the application,his password will get changed automatically without any notification.
+2. Let's name them browser A and browser B.
 
-3. First just log in as a user. I have logged in as a pentester whose password is currently “12345678”.
-![csrf](/images/csrf0.png)
+3.  On browser A open your profile  page and edit anything. Put your intercept on in your BurpSuite and click on update button in your profile page to update the credentials you have changed. This outgoing request will be captured in BurpSuite.
 
+4. Check this outgoing request in your BurpSuite, following window will appear, right click on it > Engagement Tools > Generate CSRF POC.
+![csrf](/images/csrf.png)
 
-4. Now as we have logged in as this user(Pentester) let’s try  changing the password through the user account only on threads app. So basically like I am a Pentester user right now and I want to change my password to “12345”. So I will just update it in my profile section. If I check this request going out of my browser for changing password with the help of BurpSuite I get to know that for updating the password the application is using the  **POST** request.
+5. On the following window, you can see various details like name, email, password etc. Now you can change the password here by typing it on ”password” and ”confirm password” value but make sure that you change the user Id value to the browser B user id, else the attack won't work.
 ![csrf](/images/csrf2.png)
 
-5. So currently my Pentester has the password ‘12345’.
+6. Click on "Test in browser" button given below and copy the code which will be displayed.
 
-6. As you can see in your outgoing request  for  changing the password the request going out is the  ‘POST’ request. Also it was using **password** and **confirm_password** as the hidden  parameters which we knew  while updating the password from the  request going out of our browser. 
+7. Open browser B and enter the code there and hit enter.
 
-7. So as an attacker we know that the http request which will be sent through the browser is a ‘POST’  request to make changes in  the profile section. So now what we will be going to do is make a html document which will perform the action of changing the password when it will be executed. 
-
-8. So the html document for changing the password should contain fields like:
-
-```
-<html>
-<body onload='document.csrf.submit()'>
-<form action='http://localhost:3000/users/profile/6019076df85a8b0ba08ef990' name='csrf' method='POST'>
-<input type='hidden' name='password' value='1'>
-<input type='hidden' name='confirm_password' value='1'>
-</form>
-</body>
-</html>
-```
-9.  Here in this html document the body tag will load and submit this document, the form tag is performing the action on the profile of the user whose UID is mentioned and the action which which is to be performed is of changing the password value mentioned in the hidden parameters(password,confirm_password).
-
-10. So as you can see in this html document we have used the form tag which will be  performing the action on ‘Pentester’ profile and the action which it will be performing is changing the password of ‘Pentester’ to ‘1’.  Save the html document with .html extension.
-
-11. So what an attacker need to do  is that he has to send this html document via link or some way to the victims (Pentester) browser and as soon as the victims click on it this html document will get executed by changing the password of the victim account.
-
-12. So when he will open this file,password will get updated
-
-13. So now the new password for Pentester is ‘1’ and the Pentester does not even know about this, all he did was that he opened that file which can be sent via link or any other way to the victims system.
-
-14. Keep in mind that in the real world application you have to know hidden parameters which are getting used for changing the password and also the url or endpoint of the user account or the UID given to the user.
-
-Note: CSRF poc can be generated from burp pro as well
-```
-<html>
-  <!-- CSRF PoC - generated by Burp Suite Professional -->
-  <body>
-  <script>history.pushState('', '', '/')</script>
-    <form action="http://localhost:4000/users/update/add_UI_of_victim" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="name" value="add_User_name" />
-      <input type="hidden" name="email" value="add_User_email" />
-      <input type="hidden" name="password" value="test" />
-      <input type="hidden" name="confirm&#95;password" value="test" />
-      <input type="hidden" name="profileImage" value="" />
-      <input type="hidden" name="websiteLink" value="" />
-      <input type="hidden" name="imageURL" value="" />
-      <input type="hidden" name="bio" value="" />
-      <input type="submit" value="Submit request" />
-    </form>
-  </body>
-</html>
-```
-15. Here the html document you created is in your localhost so just open that document via any browser you were working on and you will see the notification of the account getting updated and the password for your user will be changed.
-
-16. Keep in mind that the url provides in form action of the html document the UID present there is for my user so change it to the UID provided for your user to see changes.
+8. Click on Submit Request.
+ 
 
 ### No Password Policy <a name="noPass"></a>
 
@@ -386,6 +341,26 @@ password,Bio,Website,User Name etc.
 
 2.Now goto burp pro and get the http url or host your own server to get the request from the application server.
 ![Blind SSRF](/images/bssrf2.png)
+
+### Chaining of Idor with XSS <a name="ccix"></a>
+
+1. Login with your account and go to home
+
+2. From there choose a victim whose name you want to change.
+![ccix](/images/ccix.png)
+
+3. Open there profile and copy there ID from the URL
+![ccix](/images/ccix2.png)
+
+4. Then open your account and update your information and capture that request.
+![ccix](/images/ccix3.png)
+
+4. In the captured request change the name to **"><img src=x onerror=alert(0)>** and change the id at the bottom to the victim’s id which you copied.
+![ccix](/images/ccix4.png)
+
+5. Forward this request . Now open the profile again and an xss will pop up.
+![ccix](/images/ccix.5png)
+![ccix](/images/ccix6.png)
 
 
 ## Critical <a name="Critical"></a>
